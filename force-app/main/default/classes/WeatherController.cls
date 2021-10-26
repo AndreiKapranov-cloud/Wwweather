@@ -62,7 +62,7 @@ public with sharing class WeatherController {
             0,
             0
           );
-          forecast.Name = cityFromJson; 
+          forecast.Name = cityFromJson +' '+ String.valueOfGmt(thisDate); 
           forecast.City__c = cityChild.id;
           forecast.Temperature__c = temperature;
           forecast.Weather_message__c = 'good';
