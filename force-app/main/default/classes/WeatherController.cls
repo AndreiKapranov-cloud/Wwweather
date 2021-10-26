@@ -2,19 +2,15 @@ public with sharing class WeatherController {
     @AuraEnabled
     public static List<Forecast__c> refreshWeather(String city) {
       try {
-     /*   String responseBody = GetData.getResponseFromAPI(city);
+       String responseBody = GetData.getResponseFromAPI(city);
   
         Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
           responseBody
-        );*/
-        CityNameIntoMap cityNameIntoMap = new CityNameIntoMap();
-        Map<String, Object> responseMap = cityNameIntoMap.getMap(city);
-
-     //  Circle circle = new Circle();
-      //  List<Forecast__c> objList = circle.createCircle(responseMap);
-       //    CityChild cityChild = new CityChild();
+        );
+       
+     
         List<Forecast__c> objList = new List<Forecast__c>();
-     //   City__c cityObj = cityChild.getChild(responseBody);
+   
         City__c cityChild = new City__c();
         Map<String,Object> cityMap = (Map<String, Object>) responseMap.get(
           'city'
@@ -66,15 +62,15 @@ public with sharing class WeatherController {
             0,
             0
           );
-          forecast.Name = cityFromJson; //cityFromJson +' '+ String.valueOfGmt(thisDate);
+          forecast.Name = cityFromJson; 
           forecast.City__c = cityChild.id;
           forecast.Temperature__c = temperature;
-          forecast.Weather_message__c = 'goodi';
+          forecast.Weather_message__c = 'good';
           forecast.Date__c = thisDate;
           forecast.Time__c = showTime;
           objList.add(forecast);
         }
-        // objList=[select Id from Forecast__c ];*/
+       
           upsert objList;
         List<Forecast__c> sel = [
           SELECT
@@ -88,12 +84,7 @@ public with sharing class WeatherController {
           WHERE Id IN :objList
         ];
         return sel;
-  
-      //  UpsertAndSelect upsertAndSelect = new UpsertAndSelect();
-     //   return upsertAndSelect.gettingWeatherMessageFromSetting(objList);
-        // delete[SELECT id FROM Forecast__c];
-        //  objList = [SELECT id,Temperature__c,Name,Weather_message__c,Date__c,Time__c FROM Forecast__c];
-        //  return objList;
+ 
       } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
       }
